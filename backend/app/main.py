@@ -16,6 +16,8 @@ from app.core.database import create_all_tables
 # Hay que hacerlo ANTES de create_all_tables() para que se creen.
 import app.db.base  # noqa: F401
 from app.modules.auth.router import router as auth_router
+from app.modules.categorias.router import router as categorias_router
+from app.modules.productos.router import router as productos_router
 from app.modules.usuarios.router import router as usuarios_router
 
 
@@ -47,5 +49,7 @@ app.add_middleware(
 api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(auth_router)
 api_router.include_router(usuarios_router)
+api_router.include_router(categorias_router)
+api_router.include_router(productos_router)
 
 app.include_router(api_router)
