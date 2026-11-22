@@ -12,6 +12,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import create_all_tables
 
+# Importar los modelos registra las tablas en SQLModel.metadata.
+# Hay que hacerlo ANTES de create_all_tables() para que se creen.
+import app.db.base  # noqa: F401
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
