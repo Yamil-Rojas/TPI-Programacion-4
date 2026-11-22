@@ -7,7 +7,7 @@ DetallePedido: línea inmutable. Guarda una COPIA del nombre y del precio del
 producto (nombre_producto, precio_unitario), así el pedido no cambia aunque
 después se modifique el producto. subtotal = precio_unitario x cantidad.
 """
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import TYPE_CHECKING, Optional
 
 from sqlmodel import Field, Relationship, SQLModel
@@ -18,7 +18,8 @@ if TYPE_CHECKING:
 
 
 def _now() -> datetime:
-    return datetime.now(timezone.utc)
+    # Hora local sin zona horaria: se guarda igual en SQLite y PostgreSQL.
+    return datetime.now()
 
 
 class Pedido(SQLModel, table=True):
