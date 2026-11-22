@@ -15,6 +15,8 @@ from app.core.database import create_all_tables
 # Importar los modelos registra las tablas en SQLModel.metadata.
 # Hay que hacerlo ANTES de create_all_tables() para que se creen.
 import app.db.base  # noqa: F401
+from app.modules.auth.router import router as auth_router
+from app.modules.usuarios.router import router as usuarios_router
 
 
 @asynccontextmanager
@@ -43,5 +45,7 @@ app.add_middleware(
 # Todos los endpoints cuelgan de /api/v1. Los routers de cada módulo se
 # incluyen acá a medida que los construimos (auth, usuarios, categorías...).
 api_router = APIRouter(prefix="/api/v1")
+api_router.include_router(auth_router)
+api_router.include_router(usuarios_router)
 
 app.include_router(api_router)
