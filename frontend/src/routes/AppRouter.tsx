@@ -1,8 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import CarritoPage from "../features/carrito/pages/CarritoPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import UnauthorizedPage from "../features/auth/pages/UnauthorizedPage";
+import CatalogoPage from "../features/productos/pages/CatalogoPage";
 import { PaginaProvisoria } from "../shared/components/PaginaProvisoria";
 import { MainLayout } from "../shared/layout/MainLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -24,12 +26,12 @@ export function AppRouter() {
 
         {/* Cualquier usuario logueado: el catálogo */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<PaginaProvisoria titulo="Catálogo" etapa={8} />} />
+          <Route path="/" element={<CatalogoPage />} />
         </Route>
 
         {/* Solo clientes */}
         <Route element={<ProtectedRoute roles={["user"]} />}>
-          <Route path="/carrito" element={<PaginaProvisoria titulo="Carrito" etapa={8} />} />
+          <Route path="/carrito" element={<CarritoPage />} />
           <Route path="/checkout" element={<PaginaProvisoria titulo="Checkout" etapa={9} />} />
           <Route path="/mis-pedidos" element={<PaginaProvisoria titulo="Mis pedidos" etapa={9} />} />
           <Route
