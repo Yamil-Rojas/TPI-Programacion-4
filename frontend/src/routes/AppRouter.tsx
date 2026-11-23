@@ -6,11 +6,13 @@ import CheckoutPage from "../features/pedidos/pages/CheckoutPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import MisPedidosPage from "../features/pedidos/pages/MisPedidosPage";
+import UsuariosAdminPage from "../features/usuarios/pages/UsuariosAdminPage";
 import ProductosAdminPage from "../features/productos/pages/ProductosAdminPage";
+import PedidosAdminPage from "../features/pedidos/pages/PedidosAdminPage";
+import ResumenAdminPage from "../features/pedidos/pages/ResumenAdminPage";
 import PedidoDetallePage from "../features/pedidos/pages/PedidoDetallePage";
 import UnauthorizedPage from "../features/auth/pages/UnauthorizedPage";
 import CatalogoPage from "../features/productos/pages/CatalogoPage";
-import { PaginaProvisoria } from "../shared/components/PaginaProvisoria";
 import { MainLayout } from "../shared/layout/MainLayout";
 import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -46,9 +48,9 @@ export function AppRouter() {
         <Route element={<ProtectedRoute roles={["admin"]} />}>
           <Route path="/admin/productos" element={<ProductosAdminPage />} />
           <Route path="/admin/categorias" element={<CategoriasAdminPage />} />
-          <Route path="/admin/pedidos" element={<PaginaProvisoria titulo="Pedidos" etapa={11} />} />
-          <Route path="/admin/usuarios" element={<PaginaProvisoria titulo="Usuarios" etapa={11} />} />
-          <Route path="/admin/resumen" element={<PaginaProvisoria titulo="Resumen" etapa={11} />} />
+          <Route path="/admin/pedidos" element={<PedidosAdminPage />} />
+          <Route path="/admin/usuarios" element={<UsuariosAdminPage />} />
+          <Route path="/admin/resumen" element={<ResumenAdminPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

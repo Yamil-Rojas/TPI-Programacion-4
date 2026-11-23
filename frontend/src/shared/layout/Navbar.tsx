@@ -46,6 +46,12 @@ export function Navbar() {
               <Link to="/admin/resumen" className="text-sm text-slate-600 hover:text-slate-900">
                 Panel admin
               </Link>
+              <Link to="/admin/pedidos" className="text-sm text-slate-600 hover:text-slate-900">
+                Pedidos
+              </Link>
+              <Link to="/admin/usuarios" className="text-sm text-slate-600 hover:text-slate-900">
+                Usuarios
+              </Link>
               <Link to="/admin/productos" className="text-sm text-slate-600 hover:text-slate-900">
                 Productos
               </Link>
