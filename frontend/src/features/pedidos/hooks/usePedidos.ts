@@ -5,8 +5,15 @@
  */
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { cancelarPedido, crearPedido, listarPedidos, obtenerPedido } from "../api/pedidos";
-import type { FiltrosPedidos } from "../types";
+import {
+  cambiarEstadoPedido,
+  cancelarPedido,
+  crearPedido,
+  listarPedidos,
+  obtenerPedido,
+  obtenerResumen,
+} from "../api/pedidos";
+import type { EstadoPedido, FiltrosPedidos } from "../types";
 
 export function usePedidos(filtros: FiltrosPedidos) {
   return useQuery({
@@ -42,6 +49,28 @@ export function useCancelarPedido() {
     mutationFn: cancelarPedido,
     onSuccess: () => {
       // Cancelar devuelve el stock: se refrescan pedidos y productos.
+      void queryClient.invalidateQueries({ queryKey: ["pedidos"] });
+      void queryClient.invalidateQueries({ queryKey: ["productos"] });
+    },
+  });
+}
+
+// --- Admin ---
+
+export function useResumen() {
+  return useQuery({
+    queryKey: ["pedidos", "resumen"],
+    queryFn: obtenerResumen,
+  });
+}
+
+export function useCambiarEstado() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, estado }: { id: number; estado: EstadoPedido }) =>
+      cambiarEstadoPedido(id, estado),
+    onSuccess: () => {
+      // Cancelar restituye stock; cualquier cambio altera listas y resumen.
       void queryClient.invalidateQueries({ queryKey: ["pedidos"] });
       void queryClient.invalidateQueries({ queryKey: ["productos"] });
     },

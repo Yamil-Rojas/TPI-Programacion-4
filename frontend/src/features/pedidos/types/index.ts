@@ -48,3 +48,22 @@ export interface FiltrosPedidos {
   limit: number;
   estado?: EstadoPedido;
 }
+
+// Máquina de estados (RN-02): a qué estados se puede pasar desde cada uno.
+// El backend es quien la valida; acá solo se usa para mostrar los botones válidos.
+export const TRANSICIONES: Record<EstadoPedido, EstadoPedido[]> = {
+  PENDIENTE: ["EN_PREPARACION", "CANCELADO"],
+  EN_PREPARACION: ["ENTREGADO", "CANCELADO"],
+  ENTREGADO: [],
+  CANCELADO: [],
+};
+
+// Respuesta de GET /pedidos/resumen (solo admin)
+export interface ResumenPedidos {
+  pendientes: number;
+  en_preparacion: number;
+  entregados: number;
+  cancelados: number;
+  pedidos_hoy: number;
+  ingresos_entregados: number;
+}
