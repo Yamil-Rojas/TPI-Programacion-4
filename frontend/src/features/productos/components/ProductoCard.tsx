@@ -6,10 +6,9 @@ import type { Producto } from "../types";
 
 interface ProductoCardProps {
   producto: Producto;
-  puedeComprar: boolean; // solo los clientes ven el botón de agregar
 }
 
-export function ProductoCard({ producto, puedeComprar }: ProductoCardProps) {
+export function ProductoCard({ producto }: ProductoCardProps) {
   const agregar = useCartStore((s) => s.agregar);
   const enCarrito = useCartStore(
     (s) => s.items.find((i) => i.producto_id === producto.id)?.cantidad ?? 0,
@@ -45,15 +44,13 @@ export function ProductoCard({ producto, puedeComprar }: ProductoCardProps) {
       <p className={`text-xs ${sinStock ? "text-red-600" : "text-slate-500"}`}>
         {sinStock ? "Sin stock" : `Stock: ${producto.stock}`}
       </p>
-      {puedeComprar && (
-        <Button
-          className="mt-auto"
-          disabled={sinStock || llegoAlTope}
-          onClick={() => agregar(producto)}
-        >
-          {sinStock ? "No disponible" : llegoAlTope ? "Máximo en carrito" : "Agregar al carrito"}
-        </Button>
-      )}
+      <Button
+        className="mt-auto"
+        disabled={sinStock || llegoAlTope}
+        onClick={() => agregar(producto)}
+      >
+        {sinStock ? "No disponible" : llegoAlTope ? "Máximo en carrito" : "Agregar al carrito"}
+      </Button>
     </Card>
   );
 }

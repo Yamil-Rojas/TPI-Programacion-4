@@ -22,21 +22,17 @@ export function Navbar() {
           <Link to="/" className="text-lg font-bold text-orange-600">
             Food Store
           </Link>
-          {usuario && (
-            <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">
-              Catálogo
-            </Link>
-          )}
-          {usuario?.role === "user" && (
-            <Link to="/carrito" className="text-sm text-slate-600 hover:text-slate-900">
+          <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">
+            Catálogo
+          </Link>
+          <Link to="/carrito" className="text-sm text-slate-600 hover:text-slate-900">
               Carrito{unidades > 0 && (
                 <span className="ml-1 rounded-full bg-orange-600 px-1.5 py-0.5 text-xs text-white">
                   {unidades}
                 </span>
               )}
-            </Link>
-          )}
-          {usuario?.role === "user" && (
+          </Link>
+          {usuario && (
             <Link to="/mis-pedidos" className="text-sm text-slate-600 hover:text-slate-900">
               Mis pedidos
             </Link>

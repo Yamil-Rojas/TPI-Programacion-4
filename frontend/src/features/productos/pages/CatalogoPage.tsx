@@ -7,15 +7,12 @@ import { Paginacion } from "../../../shared/components/Paginacion";
 import { Skeleton } from "../../../shared/components/Skeleton";
 import { Button } from "../../../shared/ui/Button";
 import { Input } from "../../../shared/ui/Input";
-import { useAuthStore } from "../../../store/authStore";
 import { ProductoCard } from "../components/ProductoCard";
 import { useCategorias, useProductos } from "../hooks/useProductos";
 
 const POR_PAGINA = 8;
 
 export default function CatalogoPage() {
-  const esCliente = useAuthStore((s) => s.usuario?.role === "user");
-
   // Estado de la interfaz (filtros): es local de la pantalla, no del servidor.
   const [pagina, setPagina] = useState(0);
   const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
@@ -105,7 +102,7 @@ export default function CatalogoPage() {
         <>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {productos.data.items.map((p) => (
-              <ProductoCard key={p.id} producto={p} puedeComprar={esCliente} />
+              <ProductoCard key={p.id} producto={p} />
             ))}
           </div>
           <Paginacion pagina={pagina} totalPaginas={totalPaginas} onCambiar={setPagina} />
