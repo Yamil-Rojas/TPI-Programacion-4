@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuthStore } from "../../store/authStore";
+import { cantidadCarrito, useCartStore } from "../../store/cartStore";
 import { Button } from "../ui/Button";
 
 export function Navbar() {
   const usuario = useAuthStore((s) => s.usuario);
   const logout = useAuthStore((s) => s.logout);
+  const unidades = useCartStore((s) => cantidadCarrito(s.items));
   const navigate = useNavigate();
 
   async function cerrarSesion() {
@@ -23,6 +25,15 @@ export function Navbar() {
           {usuario && (
             <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">
               Catálogo
+            </Link>
+          )}
+          {usuario?.role === "user" && (
+            <Link to="/carrito" className="text-sm text-slate-600 hover:text-slate-900">
+              Carrito{unidades > 0 && (
+                <span className="ml-1 rounded-full bg-orange-600 px-1.5 py-0.5 text-xs text-white">
+                  {unidades}
+                </span>
+              )}
             </Link>
           )}
           {usuario?.role === "user" && (

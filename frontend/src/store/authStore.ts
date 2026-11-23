@@ -19,6 +19,7 @@ import {
 } from "../features/auth/api/auth";
 import type { Usuario } from "../features/auth/types";
 import { registrarManejadorSesionInvalida } from "../shared/api/axiosInstance";
+import { useCartStore } from "./cartStore";
 
 interface AuthState {
   usuario: Usuario | null;
@@ -48,6 +49,7 @@ export const useAuthStore = create<AuthState>()(
           await logoutRequest();
         } finally {
           set({ usuario: null });
+          useCartStore.getState().vaciar(); // el carrito es de quien inició sesión
         }
       },
 
