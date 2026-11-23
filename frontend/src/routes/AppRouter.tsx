@@ -1,10 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import CategoriasAdminPage from "../features/categorias/pages/CategoriasAdminPage";
 import CarritoPage from "../features/carrito/pages/CarritoPage";
 import CheckoutPage from "../features/pedidos/pages/CheckoutPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import MisPedidosPage from "../features/pedidos/pages/MisPedidosPage";
+import ProductosAdminPage from "../features/productos/pages/ProductosAdminPage";
 import PedidoDetallePage from "../features/pedidos/pages/PedidoDetallePage";
 import UnauthorizedPage from "../features/auth/pages/UnauthorizedPage";
 import CatalogoPage from "../features/productos/pages/CatalogoPage";
@@ -42,8 +44,8 @@ export function AppRouter() {
 
         {/* Solo administradores */}
         <Route element={<ProtectedRoute roles={["admin"]} />}>
-          <Route path="/admin/productos" element={<PaginaProvisoria titulo="Productos" etapa={10} />} />
-          <Route path="/admin/categorias" element={<PaginaProvisoria titulo="Categorías" etapa={10} />} />
+          <Route path="/admin/productos" element={<ProductosAdminPage />} />
+          <Route path="/admin/categorias" element={<CategoriasAdminPage />} />
           <Route path="/admin/pedidos" element={<PaginaProvisoria titulo="Pedidos" etapa={11} />} />
           <Route path="/admin/usuarios" element={<PaginaProvisoria titulo="Usuarios" etapa={11} />} />
           <Route path="/admin/resumen" element={<PaginaProvisoria titulo="Resumen" etapa={11} />} />
