@@ -23,11 +23,12 @@ interface CartState {
   cambiarCantidad: (productoId: number, cantidad: number) => void;
   quitar: (productoId: number) => void;
   vaciar: () => void;
+  total: () => number; // suma de precio × cantidad de todos los ítems
 }
 
 export const useCartStore = create<CartState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       items: [],
 
       agregar: (producto, cantidad = 1) =>
@@ -70,6 +71,8 @@ export const useCartStore = create<CartState>()(
         set((state) => ({ items: state.items.filter((i) => i.producto_id !== productoId) })),
 
       vaciar: () => set({ items: [] }),
+
+      total: () => totalCarrito(get().items),
     }),
     { name: "cart-storage" },
   ),
