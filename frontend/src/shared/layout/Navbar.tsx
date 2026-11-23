@@ -42,9 +42,17 @@ export function Navbar() {
             </Link>
           )}
           {usuario?.role === "admin" && (
-            <Link to="/admin/resumen" className="text-sm text-slate-600 hover:text-slate-900">
-              Panel admin
-            </Link>
+            <>
+              <Link to="/admin/resumen" className="text-sm text-slate-600 hover:text-slate-900">
+                Panel admin
+              </Link>
+              <Link to="/admin/productos" className="text-sm text-slate-600 hover:text-slate-900">
+                Productos
+              </Link>
+              <Link to="/admin/categorias" className="text-sm text-slate-600 hover:text-slate-900">
+                Categorías
+              </Link>
+            </>
           )}
         </div>
         <div className="flex items-center gap-3">
