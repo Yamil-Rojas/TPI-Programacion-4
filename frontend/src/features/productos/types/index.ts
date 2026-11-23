@@ -34,3 +34,26 @@ export interface FiltrosProductos {
   categoria_id?: number;
   disponible?: boolean;
 }
+
+// Cuerpo de POST/PUT /productos
+export interface ProductoInput {
+  categoria_id: number;
+  nombre: string;
+  descripcion: string | null;
+  precio_base: number;
+  imagen_url: string | null;
+  stock: number;
+  disponible: boolean;
+}
+
+// Cuerpo de PATCH /productos/{id}/stock
+export interface StockInput {
+  stock?: number;
+  disponible?: boolean;
+}
+
+// Cuerpo de POST/PUT /categorias
+export interface CategoriaInput {
+  nombre: string;
+  descripcion: string | null;
+}
