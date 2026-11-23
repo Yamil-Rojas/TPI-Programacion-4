@@ -1,8 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import CarritoPage from "../features/carrito/pages/CarritoPage";
+import CheckoutPage from "../features/pedidos/pages/CheckoutPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
+import MisPedidosPage from "../features/pedidos/pages/MisPedidosPage";
+import PedidoDetallePage from "../features/pedidos/pages/PedidoDetallePage";
 import UnauthorizedPage from "../features/auth/pages/UnauthorizedPage";
 import CatalogoPage from "../features/productos/pages/CatalogoPage";
 import { PaginaProvisoria } from "../shared/components/PaginaProvisoria";
@@ -32,12 +35,9 @@ export function AppRouter() {
         {/* Solo clientes */}
         <Route element={<ProtectedRoute roles={["user"]} />}>
           <Route path="/carrito" element={<CarritoPage />} />
-          <Route path="/checkout" element={<PaginaProvisoria titulo="Checkout" etapa={9} />} />
-          <Route path="/mis-pedidos" element={<PaginaProvisoria titulo="Mis pedidos" etapa={9} />} />
-          <Route
-            path="/mis-pedidos/:id"
-            element={<PaginaProvisoria titulo="Detalle del pedido" etapa={9} />}
-          />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/mis-pedidos" element={<MisPedidosPage />} />
+          <Route path="/mis-pedidos/:id" element={<PedidoDetallePage />} />
         </Route>
 
         {/* Solo administradores */}
