@@ -4,13 +4,14 @@ import { EstadoVacio } from "../../../shared/components/EstadoVacio";
 import { Button } from "../../../shared/ui/Button";
 import { Card } from "../../../shared/ui/Card";
 import { formatearPrecio } from "../../../shared/utils";
-import { totalCarrito, useCartStore } from "../../../store/cartStore";
+import { useCartStore } from "../../../store/cartStore";
 
 export default function CarritoPage() {
   const items = useCartStore((s) => s.items);
   const cambiarCantidad = useCartStore((s) => s.cambiarCantidad);
   const quitar = useCartStore((s) => s.quitar);
   const vaciar = useCartStore((s) => s.vaciar);
+  const total = useCartStore((s) => s.total());
 
   if (items.length === 0) {
     return (
@@ -72,7 +73,7 @@ export default function CarritoPage() {
         </Button>
         <div className="flex items-center gap-4">
           <p className="text-lg font-semibold text-slate-800">
-            Total: {formatearPrecio(totalCarrito(items))}
+            Total: {formatearPrecio(total)}
           </p>
           <Link
             to="/checkout"

@@ -7,7 +7,7 @@ import { Button } from "../../../shared/ui/Button";
 import { Card } from "../../../shared/ui/Card";
 import { Input } from "../../../shared/ui/Input";
 import { formatearPrecio } from "../../../shared/utils";
-import { totalCarrito, useCartStore } from "../../../store/cartStore";
+import { useCartStore } from "../../../store/cartStore";
 import { useCrearPedido } from "../hooks/usePedidos";
 import type { FormaPago } from "../types";
 
@@ -15,6 +15,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const items = useCartStore((s) => s.items);
   const vaciar = useCartStore((s) => s.vaciar);
+  const total = useCartStore((s) => s.total());
   const crear = useCrearPedido();
   const [errorServidor, setErrorServidor] = useState<string | null>(null);
   const [finalizado, setFinalizado] = useState(false); // evita volver al carrito al vaciarlo
@@ -28,7 +29,7 @@ export default function CheckoutPage() {
     onSubmit: async ({ value }) => {
       setErrorServidor(null);
       try {
-        const pedido = await crear.mutateAsync({
+        await crear.mutateAsync({
           items: items.map((i) => ({ producto_id: i.producto_id, cantidad: i.cantidad })),
           forma_pago: value.forma_pago,
           direccion_entrega: value.direccion_entrega.trim(),
@@ -36,7 +37,7 @@ export default function CheckoutPage() {
         });
         setFinalizado(true);
         vaciar();
-        navigate(`/mis-pedidos/${pedido.id}`, { replace: true });
+        navigate("/mis-pedidos", { replace: true });
       } catch (error) {
         // Por ejemplo: "Stock insuficiente" (409). El carrito se conserva.
         setErrorServidor(handleApiError(error));
@@ -135,7 +136,7 @@ export default function CheckoutPage() {
         </ul>
         <p className="mt-3 flex justify-between text-lg font-semibold text-slate-800">
           <span>Total</span>
-          <span>{formatearPrecio(totalCarrito(items))}</span>
+          <span>{formatearPrecio(total)}</span>
         </p>
         <Link to="/carrito" className="mt-3 inline-block text-sm text-orange-600 hover:underline">
           Volver al carrito

@@ -9,11 +9,13 @@ import { Button } from "../../../shared/ui/Button";
 import { Card } from "../../../shared/ui/Card";
 import { Modal } from "../../../shared/ui/Modal";
 import { formatearFecha, formatearPrecio } from "../../../shared/utils";
+import { useAuthStore } from "../../../store/authStore";
 import { useCancelarPedido, usePedido } from "../hooks/usePedidos";
 
 export default function PedidoDetallePage() {
   const { id } = useParams();
   const pedidoId = Number(id);
+  const miId = useAuthStore((s) => s.usuario?.id);
   const pedido = usePedido(pedidoId);
   const cancelar = useCancelarPedido();
   const [confirmando, setConfirmando] = useState(false);
@@ -96,8 +98,8 @@ export default function PedidoDetallePage() {
           Total: {formatearPrecio(p.total)}
         </p>
 
-        {/* RN-03: el cliente solo puede cancelar pedidos en PENDIENTE */}
-        {p.estado === "PENDIENTE" && (
+        {/* RN-03/RN-04: solo el dueño cancela, y solo en PENDIENTE (el admin lo hace desde su panel) */}
+        {p.estado === "PENDIENTE" && p.usuario_id === miId && (
           <div className="text-right">
             <Button variante="danger" onClick={() => setConfirmando(true)}>
               Cancelar pedido
