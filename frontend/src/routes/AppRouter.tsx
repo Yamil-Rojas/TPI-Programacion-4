@@ -18,8 +18,8 @@ import { ProtectedRoute } from "./ProtectedRoute";
 
 /**
  * Tabla de rutas de la consigna:
- *  públicas:  /login, /register
- *  cliente:   /, /carrito, /checkout, /mis-pedidos, /mis-pedidos/:id   (role user)
+ *  públicas:  /login, /register, /, /carrito, /unauthorized
+ *  sesión:    /checkout, /mis-pedidos, /mis-pedidos/:id   (cliente o admin)
  *  admin:     /admin/productos, /admin/categorias, /admin/pedidos, /admin/usuarios, /admin/resumen
  */
 export function AppRouter() {
@@ -31,14 +31,12 @@ export function AppRouter() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-        {/* Cualquier usuario logueado: el catálogo */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<CatalogoPage />} />
-        </Route>
+        {/* Públicas: el catálogo y el carrito se pueden usar sin iniciar sesión */}
+        <Route path="/" element={<CatalogoPage />} />
+        <Route path="/carrito" element={<CarritoPage />} />
 
-        {/* Solo clientes */}
-        <Route element={<ProtectedRoute roles={["user"]} />}>
-          <Route path="/carrito" element={<CarritoPage />} />
+        {/* Cualquier usuario con sesión (cliente o admin) */}
+        <Route element={<ProtectedRoute />}>
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/mis-pedidos" element={<MisPedidosPage />} />
           <Route path="/mis-pedidos/:id" element={<PedidoDetallePage />} />

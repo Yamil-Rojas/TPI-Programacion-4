@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuthStore } from "../../../store/authStore";
 import { handleApiError } from "../../../shared/api/handleApiError";
@@ -10,6 +10,9 @@ import { Input } from "../../../shared/ui/Input";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const desde = (location.state as { from?: string } | null)?.from;
+  const destinoPorRol = (rol: string | undefined) => desde ?? (rol === "admin" ? "/admin/resumen" : "/");
   const login = useAuthStore((s) => s.login);
   const usuario = useAuthStore((s) => s.usuario);
   const [errorServidor, setErrorServidor] = useState<string | null>(null);
@@ -20,8 +23,7 @@ export default function LoginPage() {
       setErrorServidor(null);
       try {
         await login(value.username, value.password);
-        const rol = useAuthStore.getState().usuario?.role;
-        navigate(rol === "admin" ? "/admin/resumen" : "/", { replace: true });
+        navigate(destinoPorRol(useAuthStore.getState().usuario?.role), { replace: true });
       } catch (error) {
         setErrorServidor(handleApiError(error));
       }
@@ -30,7 +32,7 @@ export default function LoginPage() {
 
   // Si ya hay sesión, no tiene sentido mostrar el login.
   if (usuario) {
-    return <Navigate to={usuario.role === "admin" ? "/admin/resumen" : "/"} replace />;
+    return <Navigate to={destinoPorRol(usuario.role)} replace />;
   }
 
   return (
