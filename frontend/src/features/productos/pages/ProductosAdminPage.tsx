@@ -5,7 +5,6 @@ import { handleApiError } from "../../../shared/api/handleApiError";
 import { DataTable } from "../../../shared/components/DataTable";
 import { EstadoError } from "../../../shared/components/EstadoError";
 import { EstadoVacio } from "../../../shared/components/EstadoVacio";
-import { Paginacion } from "../../../shared/components/Paginacion";
 import { Skeleton } from "../../../shared/components/Skeleton";
 import { Button } from "../../../shared/ui/Button";
 import { ConfirmModal } from "../../../shared/ui/ConfirmModal";
@@ -18,18 +17,18 @@ import { useCategorias, useProductos } from "../hooks/useProductos";
 import { useEliminarProducto } from "../hooks/useProductosAdmin";
 import type { Producto } from "../types";
 
-const POR_PAGINA = 10;
+// El panel pide hasta 100 productos y la tabla (TanStack Table) los pagina del lado del cliente.
+const LIMITE = 100;
 
 export default function ProductosAdminPage() {
-  const [pagina, setPagina] = useState(0);
   const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
   const [textoBusqueda, setTextoBusqueda] = useState("");
   const [busqueda, setBusqueda] = useState("");
 
   // Sin filtro "disponible": el admin ve también los productos no disponibles.
   const productos = useProductos({
-    skip: pagina * POR_PAGINA,
-    limit: POR_PAGINA,
+    skip: 0,
+    limit: LIMITE,
     search: busqueda || undefined,
     categoria_id: categoriaId,
   });
@@ -96,8 +95,6 @@ export default function ProductosAdminPage() {
     }
   }
 
-  const totalPaginas = productos.data ? Math.ceil(productos.data.total / POR_PAGINA) : 0;
-
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -116,7 +113,6 @@ export default function ProductosAdminPage() {
         className="flex flex-wrap items-end gap-2"
         onSubmit={(e) => {
           e.preventDefault();
-          setPagina(0);
           setBusqueda(textoBusqueda.trim());
         }}
       >
@@ -131,7 +127,6 @@ export default function ProductosAdminPage() {
           etiqueta="Filtrar por categoría"
           value={categoriaId === undefined ? "" : String(categoriaId)}
           onChange={(e) => {
-            setPagina(0);
             setCategoriaId(e.target.value ? Number(e.target.value) : undefined);
           }}
         >
@@ -155,10 +150,7 @@ export default function ProductosAdminPage() {
       ) : productos.data.items.length === 0 ? (
         <EstadoVacio mensaje="No se encontraron productos" />
       ) : (
-        <>
-          <DataTable data={productos.data.items} columns={columnas} />
-          <Paginacion pagina={pagina} totalPaginas={totalPaginas} onCambiar={setPagina} />
-        </>
+        <DataTable data={productos.data.items} columns={columnas} />
       )}
 
       <ProductoFormModal
