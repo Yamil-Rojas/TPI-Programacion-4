@@ -6,8 +6,7 @@ Aplicación web para un negocio de comidas. Los clientes se registran, recorren 
 
 - **Autor:** Maximiliano Rojas
 - **Repositorio:** https://github.com/Yamil-Rojas/TPI-Programacion-4
-- **Video de demostración:** `PEGAR_ACA_EL_LINK_PUBLICO_DEL_VIDEO`
-
+- **Video de demostración:** https://drive.google.com/file/d/1iZkS6ImCZaP0uzxxCaTlXOuRhs_qYZwi/view?usp=drive_link
 ## Tecnologías
 
 | Parte | Tecnologías |
